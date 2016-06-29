@@ -1,5 +1,12 @@
 <?php
 
+define('ROOT_PATH', realpath(__DIR__));
+
+define('PROJECT', 'project');
+define('PROJECT_PATH', ROOT_PATH . '/src/' . PROJECT);
+define('PROJECT_NS', ucfirst(strtolower(PROJECT)));
+
+
 // --------------------------------------------------------
 // src/laravel/bootstrap/autoload.php:
 // --------------------------------------------------------
@@ -13,6 +20,9 @@ if (file_exists($compiledPath)) {
     require $compiledPath;
 }
 
+// -----
+$autoloader->addPsr4(PROJECT_NS.'\\', PROJECT_PATH);
+// -----
 
 // --------------------------------------------------------
 // src/laravel/bootstrap/app.php:

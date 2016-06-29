@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         //
-
+        $this->namespace = PROJECT_NS . '\Controllers';
         parent::boot($router);
     }
 
@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->group([
             'namespace' => $this->namespace, 'middleware' => 'web',
         ], function ($router) {
-            require app_path('Http/routes.php');
+            require PROJECT_PATH.'/routes.php';
         });
     }
 }
