@@ -1,5 +1,3 @@
 <?php
 
-Route::get('/', function(){
-    return 'HEBELEK';
-});
+Route::get('/', 'WelcomeController@welcome');
