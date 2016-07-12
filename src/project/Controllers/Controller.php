@@ -4,7 +4,7 @@ namespace Project\Controllers;
 
 use App\Http\Controllers\Controller as BaseController;
 
-class Controller extends BaseController
+abstract class Controller extends BaseController
 {
     //..
 }
