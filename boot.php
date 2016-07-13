@@ -47,6 +47,9 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->useEnvironmentPath(PROJECT_PATH . '/env');
+$env = require PROJECT_PATH . '/env/env.php';
+$app->loadEnvironmentFrom($env.'.ini');
 
 // --------------------------------------------------------
 // src/laravel/public/index.php:
