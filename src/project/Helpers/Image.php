@@ -13,10 +13,13 @@ use Imagick;
 class Image
 {
     private $img;
+    private $basePath = '/tmp';
 
 
     public function __construct ($path)
     {
+        $this->basePath = rtrim(env('IMG_BASEPATH', $this->basePath), '/');
+
         $this->img = new Imagick;
         $this->img->readImage($path);
 
@@ -26,18 +29,18 @@ class Image
     }
 
 
-    protected function manipulateResolution()
+    protected function manipulateResolution ()
     {
-        $this->img->setImageResolution(72,72);
-        $this->img->resampleImage(72,72,Imagick::FILTER_UNDEFINED,0);
+        $this->img->setImageResolution(72, 72);
+        $this->img->resampleImage(72, 72, Imagick::FILTER_UNDEFINED, 0);
     }
 
 
-    protected function manipulateOrientation()
+    protected function manipulateOrientation ()
     {
         $orientation = $this->img->getImageOrientation();
 
-        switch($orientation) {
+        switch ($orientation) {
             case Imagick::ORIENTATION_BOTTOMRIGHT:
                 $this->img->rotateImage("#000", 180); // rotate 180 degrees
                 break;
@@ -55,13 +58,21 @@ class Image
         $this->img->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
     }
 
-    protected function manipulateDimensions()
+    protected function manipulateDimensions ()
     {
-        $this->img->resizeImage(1200, 1200, Imagick::FILTER_CATROM, 1, false);
+        $this->img->resizeImage(
+            600,    // w
+            600,    // h
+            Imagick::FILTER_CATROM, // filter
+            1,      // blur ( sharp < 1 (don't change) < blurry )
+            true    // bestfit
+        );
     }
 
-    public function writeJpeg($path)
+    public function writeJpeg ($path)
     {
+        $path = $this->basePath . '/' . ltrim($path, '/');
+
         $this->img->setImageFormat('jpeg');
         $this->img->setImageCompressionQuality(90);
         $this->img->writeImage($path);
