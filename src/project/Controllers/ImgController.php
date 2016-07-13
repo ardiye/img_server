@@ -10,6 +10,7 @@ namespace Project\Controllers;
 
 
 use Illuminate\Support\Facades\Input;
+use Project\Helpers\Image;
 
 class ImgController extends Controller
 {
@@ -37,19 +38,18 @@ class ImgController extends Controller
         // File path query string
         $path = Input::get('path');
 
-        // Validate file path
-        $path = ltrim($path, '/');
-
         // Manipulate image file (Imagick):
         //    set dpi to 72
         //    scale to fit maximum dimensions
         //    fix orientation
+        $img = new Image($file->getPathname());
 
         // Save manipulated file
         // Return file info:
         //    dimensions
         //    path
         //..
+        $img->writeJpeg(rtrim($path) . '/' . time() . '.jpg');
 
         return [
             'uploadpath' => $path,
